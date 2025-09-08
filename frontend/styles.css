@@ -1,0 +1,137 @@
+/* Custom styles untuk Heart4Edu System Monitor */
+
+/* Animasi untuk hover effects */
+.card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Gradient background untuk tombol */
+.btn-gradient {
+    background: linear-gradient(135deg, #6D28D9 0%, #4F46E5 100%);
+}
+
+.btn-gradient:hover {
+    background: linear-gradient(135deg, #5B21B6 0%, #4338CA 100%);
+}
+
+/* Animasi untuk chart bars */
+.chart-bar {
+    transition: all 0.3s ease;
+    animation: growUp 1s ease-out;
+}
+
+.chart-bar:hover {
+    opacity: 0.8;
+    transform: scaleY(1.05);
+}
+
+@keyframes growUp {
+    from {
+        height: 0;
+    }
+    to {
+        height: var(--final-height);
+    }
+}
+
+/* Responsive chart adjustments */
+@media (max-width: 640px) {
+    .chart-container {
+        overflow-x: auto;
+    }
+    
+    .chart-bars {
+        min-width: 400px;
+    }
+}
+
+/* Status badge styles */
+.status-badge {
+    position: relative;
+    overflow: hidden;
+}
+
+.status-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.status-badge:hover::before {
+    left: 100%;
+}
+
+/* Smooth scrolling untuk seluruh halaman */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Loading animation untuk tombol */
+.btn-loading {
+    position: relative;
+}
+
+.btn-loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    margin: auto;
+    border: 2px solid transparent;
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.btn-loading:active::after {
+    opacity: 1;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Fade in animation untuk cards */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.fade-in:nth-child(1) { animation-delay: 0.1s; }
+.fade-in:nth-child(2) { animation-delay: 0.2s; }
+.fade-in:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Dark mode scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #111119;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1A1A2E;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #2D2D4A;
+}

@@ -21,6 +21,7 @@ export default defineConfig({
     host: true,                 // = 0.0.0.0
     port: Number(process.env.PORT || 5173),
     open: !isDocker && false,
+    allowedHosts: true, // allow any host header / DNS name
   },
   build: {
     outDir: 'dist',

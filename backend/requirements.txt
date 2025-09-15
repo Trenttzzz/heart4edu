@@ -1,7 +1,7 @@
 fastapi
 uvicorn[standard]
 onnxruntime
-pydantic
+pydantic>=2.0.0
 numpy
 bleak
 requests

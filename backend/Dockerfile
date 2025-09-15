@@ -8,7 +8,8 @@ WORKDIR /app
 
 # 1) Install deps
 COPY backend/requirements.txt .
-RUN pip install --upgrade pip && pip install -r requirements.txt
+ENV PIP_DEFAULT_TIMEOUT=100
+RUN pip install -r requirements.txt
 
 # 2) Copy source + model
 COPY backend/ ./

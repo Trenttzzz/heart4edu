@@ -1,11 +1,15 @@
-# ===== Build stage =====
-FROM node:20-slim AS build
+# Build stage
+FROM node:20-alpine AS build
 WORKDIR /app
-COPY frontend/package*.json ./
+
+# Copy package files
+COPY frontend/package.json frontend/package-lock.json ./
 RUN npm ci
+
+# Copy source code
 COPY frontend/ ./
 
-# Vite baca env prefiks VITE_ saat build
+# Build arguments for Vite
 ARG VITE_API_URL
 ARG VITE_ENABLE_MOCK_DATA
 ARG VITE_WS_RECONNECT_INTERVAL
@@ -13,7 +17,8 @@ ENV VITE_API_URL=$VITE_API_URL
 ENV VITE_ENABLE_MOCK_DATA=$VITE_ENABLE_MOCK_DATA
 ENV VITE_WS_RECONNECT_INTERVAL=$VITE_WS_RECONNECT_INTERVAL
 
-RUN npm run build   # output: /app/dist
+# Expose port
+EXPOSE 5173
 
-# ===== Runtime (served by nginx, lihat nginx/Dockerfile) =====
-# (Tidak ada CMD di stage ini; artefak dipakai Nginx)
+# Serve static files with SPA fallback
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]

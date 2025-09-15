@@ -2,7 +2,7 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Quer
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from typing import List, Annotated, Dict, Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 from collections import defaultdict, deque
 import asyncio
 import anyio
@@ -98,11 +98,24 @@ last_result: Dict[str, dict] = {}
 # ========= Schemas =========
 class PredictIn(BaseModel):
     session_id: str = "default"
-    depth_cm: Annotated[List[float], Field(min_length=10, max_length=10)]
+    depth_cm: List[float]
+    
+    @validator('depth_cm')
+    def validate_depth_cm(cls, v):
+        if len(v) != 10:
+            raise ValueError('depth_cm must contain exactly 10 values')
+        return v
 
 class PredictBatchIn(BaseModel):
     session_id: str = "default"
-    batches: List[Annotated[List[float], Field(min_length=10, max_length=10)]]
+    batches: List[List[float]]
+    
+    @validator('batches')
+    def validate_batches(cls, v):
+        for batch in v:
+            if len(batch) != 10:
+                raise ValueError('Each batch must contain exactly 10 values')
+        return v
 
 class IngestIn(BaseModel):
     session_id: str = "default"

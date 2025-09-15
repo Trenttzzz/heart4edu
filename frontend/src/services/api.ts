@@ -2,7 +2,7 @@
 // Use optional chaining to avoid TS error if env typing not present
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-const API_BASE_URL = (import.meta?.env?.VITE_API_URL as string) || 'http://localhost:8000';
+const API_BASE_URL = (import.meta?.env?.VITE_API_URL as string) || 'http://localhost:18000';
 
 export interface PredictionResult {
   class_index: number;
@@ -197,7 +197,14 @@ class APIService {
 
   // Create WebSocket connection
   createWebSocket(sessionId: string): WebSocket {
-    const wsUrl = `${this.baseUrl.replace('http', 'ws')}/ws/${sessionId}`;
+    // Backend WebSocket endpoint is at /ws/{session_id}, bukan /api/ws/{session_id}
+    const wsBaseUrl = this.baseUrl
+      .replace('http://', 'ws://')
+      .replace('https://', 'wss://')
+      .replace('/api', ''); // Remove /api suffix completely
+    
+    const wsUrl = `${wsBaseUrl}/ws/${sessionId}`;
+    console.log('WebSocket URL:', wsUrl); // Debug: Should show ws://localhost:18080/ws/esp32-sesi-01
     return new WebSocket(wsUrl);
   }
 

@@ -1,8 +1,6 @@
 services:
   backend:
-    build:
-      context: .
-      dockerfile: backend/Dockerfile
+    image: heart4edu-prod-backend:latest
     container_name: heart4edu-backend
     env_file: .env
     ports:
@@ -15,13 +13,7 @@ services:
     restart: unless-stopped
 
   frontend:
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile
-      args:
-        - VITE_API_URL=${VITE_API_URL}
-        - VITE_ENABLE_MOCK_DATA=${VITE_ENABLE_MOCK_DATA}
-        - VITE_WS_RECONNECT_INTERVAL=${VITE_WS_RECONNECT_INTERVAL}
+    image: heart4edu-prod-frontend:latest
     container_name: heart4edu-frontend
     env_file: .env
     ports:

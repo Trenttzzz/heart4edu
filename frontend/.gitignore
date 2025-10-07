@@ -90,3 +90,8 @@ jspm_packages/
 # Temporary folders
 tmp/
 temp/
+
+# IMPORTANT: DO NOT ignore these lock files - they should be committed!
+!package-lock.json
+!yarn.lock
+!pnpm-lock.yaml

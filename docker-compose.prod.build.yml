@@ -1,0 +1,31 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: heart4edu-backend
+    env_file: .env
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    environment:
+      - MODEL_PATH=${MODEL_PATH}
+      - CORS_ORIGINS=${CORS_ORIGINS}
+      - ORT_PROVIDERS=${ORT_PROVIDERS}
+    command: uvicorn app:app --host 0.0.0.0 --port 8000
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        - VITE_API_URL=${VITE_API_URL}
+        - VITE_ENABLE_MOCK_DATA=${VITE_ENABLE_MOCK_DATA}
+        - VITE_WS_RECONNECT_INTERVAL=${VITE_WS_RECONNECT_INTERVAL}
+    container_name: heart4edu-frontend
+    env_file: .env
+    ports:
+      - "${FRONTEND_PORT:-5173}:5173"
+    depends_on:
+      - backend
+    restart: unless-stopped
